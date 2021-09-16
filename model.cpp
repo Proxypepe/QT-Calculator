@@ -88,12 +88,15 @@ Model::expressions_type Model::add_dif_op(const_reference op) noexcept
             sub_expression.append(expression);
             sub_expression.append(")");
             expression = culc_dif_op(op);
+            culced = true;
         }
         else
         {
-            sub_expression.append(culc_dif_op(op));
+            auto res = culc_dif_op(op);
+            sub_expression.append(" ");
+            sub_expression.append(res);
+            calculate();
         }
-        culced = true;
     }
     return expressions_type(expression, sub_expression);
 }
@@ -127,8 +130,9 @@ Model::expressions_type Model::calculate() noexcept
     }
     else if (splited_sub.size() == 3)
     {
-        sub_expression = make_calc_ass();
+
         expression = culc(splited_sub[0], splited_sub[2], splited_sub[1]);
+        sub_expression.append(" =");
         was_op = false;
     }
     return expressions_type(expression, sub_expression);
