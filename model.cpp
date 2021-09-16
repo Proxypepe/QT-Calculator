@@ -1,7 +1,5 @@
 #include "model.h"
 
-// Impliment all logic,
-
 Model::Model()  noexcept : expression(""), sub_expression(""), has_comma(false)
 {
 
@@ -66,9 +64,15 @@ Model::expressions_type Model::add_simple_op(const_reference operation) noexcept
         sub_expression = expression;
         was_op = false;
     }
-    else if (was_op && sub_expression.contains(operation))
+    else if (culced)
     {
-
+        sub_expression = expression;
+        sub_expression.append(" ");
+        sub_expression.append(operation);
+        was_op = true;
+        has_op = true;
+        has_comma = false;
+        culced = false;
     }
     return expressions_type(expression, sub_expression);
 }
@@ -79,11 +83,14 @@ Model::expressions_type Model::add_dif_op(const_reference op) noexcept
     {
         if (sub_expression == "")
         {
+            sub_expression.append(op);
+            sub_expression.append("(");
+            sub_expression.append(expression);
+            sub_expression.append(")");
             expression = culc_dif_op(op);
         }
         else
         {
-            sub_expression.append(" ");
             sub_expression.append(culc_dif_op(op));
         }
         culced = true;
@@ -114,14 +121,14 @@ Model::expressions_type Model::calculate() noexcept
 
     if (splited_sub.size() == 2)
     {
+        sub_expression = make_calc_ass();
         expression = culc(splited_sub[0], expression, splited_sub[1]);
-        sub_expression = expression;
         was_op = false;
     }
     else if (splited_sub.size() == 3)
     {
+        sub_expression = make_calc_ass();
         expression = culc(splited_sub[0], splited_sub[2], splited_sub[1]);
-        sub_expression = expression;
         was_op = false;
     }
     return expressions_type(expression, sub_expression);
@@ -188,6 +195,15 @@ QString Model::culc_dif_op(const_reference op) noexcept
         result =  QString::number(1/op1);
     }
     return result;
+}
+
+QString Model::make_calc_ass() noexcept
+{
+    QString res = sub_expression;
+    res.append(" ");
+    res.append(expression);
+    res.append(" =");
+    return res;
 }
 
 Model::expressions_type Model::update(Model::const_reference mode, Model::const_reference symbol)

@@ -1,8 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <cmath>
 #include <iostream>
+#include <cmath>
 #include <stdint.h>
 #include <QString>
 #include <QStringList>
@@ -28,6 +28,9 @@ private:
     const char MAX_LENGTH = 14;
 
     QString culc (const_reference, const_reference, const_reference);
+    QString culc_dif_op(const_reference) noexcept;
+    QString make_calc_ass() noexcept;
+
     expressions_type add_digit(const_reference) noexcept;
     expressions_type add_simple_op(const_reference) noexcept;
     expressions_type add_dif_op(const_reference) noexcept;
@@ -37,7 +40,7 @@ private:
     expressions_type clear_all() noexcept;
     expressions_type deletion() noexcept;
     expressions_type neg_pos() noexcept;
-    QString culc_dif_op(const_reference) noexcept;
+
 
 public:
     Model() noexcept;
