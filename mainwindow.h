@@ -42,5 +42,11 @@ public slots:
 private slots:
     void on_clear_button_clicked();
     void on_clear_all_button_clicked();
+    void on_deletion_button_clicked();
+    void on_comma_button_clicked();
+    void on_neg_pos_button_clicked();
+    void on_one_div_x_clicked();
+    void on_power_button_clicked();
+    void on_sqrt_button_clicked();
 };
 #endif // MAINWINDOW_H
